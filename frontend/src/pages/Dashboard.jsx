@@ -4,11 +4,18 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
+const ICONS = {
+    total: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>,
+    watching: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>,
+    watched: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>,
+    watchlist: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+};
+
 const STAT_CONFIG = [
-    { key: 'total', label: 'Toplam', icon: '🎬', color: '#e50914', status: null },
-    { key: 'watching', label: 'İzliyorum', icon: '▶️', color: '#7c3aed', status: 'watching' },
-    { key: 'watched', label: 'İzlendi', icon: '✅', color: '#22c55e', status: 'watched' },
-    { key: 'watchlist', label: 'İzlenecek', icon: '📋', color: '#f59e0b', status: 'watchlist' },
+    { key: 'total', label: 'Toplam', icon: ICONS.total, color: '#e50914', status: null },
+    { key: 'watching', label: 'İzliyorum', icon: ICONS.watching, color: '#3b82f6', status: 'watching' },
+    { key: 'watched', label: 'İzlendi', icon: ICONS.watched, color: '#22c55e', status: 'watched' },
+    { key: 'watchlist', label: 'İzlenecek', icon: ICONS.watchlist, color: '#f59e0b', status: 'watchlist' },
 ];
 
 export default function Dashboard() {
@@ -51,7 +58,7 @@ export default function Dashboard() {
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-3xl font-black text-white mb-1">
-                    Merhaba, <span className="text-gradient">{user}</span> 👋
+                    Merhaba, <span className="text-gradient">{user}</span>
                 </h1>
                 <p className="text-gray-500">Nerede kaldığını biz hatırlıyoruz.</p>
             </div>
@@ -87,8 +94,8 @@ export default function Dashboard() {
             {activeFilter && (
                 <div className="mb-8">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-bold text-white">
-                            {STAT_CONFIG.find(s => s.key === activeFilter)?.icon}{' '}
+                        <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                            <span className="scale-75 origin-left">{STAT_CONFIG.find(s => s.key === activeFilter)?.icon}</span>
                             {STAT_CONFIG.find(s => s.key === activeFilter)?.label} ({filteredItems.length})
                         </h2>
                         <button onClick={() => { setActiveFilter(null); setFilteredItems([]); }}
@@ -109,13 +116,13 @@ export default function Dashboard() {
                                     <div className="relative" style={{ aspectRatio: '2/3' }}>
                                         {item.poster_path
                                             ? <img src={item.poster_path} alt={item.title} className="w-full h-full object-cover" />
-                                            : <div className="w-full h-full bg-dark-700 flex items-center justify-center text-3xl">
-                                                {item.type === 'tv' ? '📺' : '🎬'}
+                                            : <div className="w-full h-full bg-dark-700 flex items-center justify-center text-gray-500">
+                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                                             </div>
                                         }
                                         {item.type === 'tv' && item.status === 'watching' && (
                                             <div className="absolute bottom-2 left-2 right-2 text-center text-xs font-bold px-2 py-1 rounded-lg"
-                                                style={{ background: 'rgba(0,0,0,0.8)', color: '#7c3aed' }}>
+                                                style={{ background: 'rgba(0,0,0,0.8)', color: '#3b82f6' }}>
                                                 S{item.current_season}·E{item.current_episode}
                                             </div>
                                         )}
@@ -133,7 +140,10 @@ export default function Dashboard() {
             {/* Devam Edilenler */}
             {!activeFilter && continuing.length > 0 && (
                 <div className="mb-8">
-                    <h2 className="text-xl font-bold mb-4 text-white">▶️ Devam Et</h2>
+                    <h2 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+                        <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                        Devam Et
+                    </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {continuing.slice(0, 6).map(item => (
                             <div key={item.id}
@@ -142,20 +152,23 @@ export default function Dashboard() {
                                 <div className="flex-shrink-0 w-14 rounded-lg overflow-hidden" style={{ aspectRatio: '2/3' }}>
                                     {item.poster_path
                                         ? <img src={item.poster_path} alt={item.title} className="w-full h-full object-cover" />
-                                        : <div className="w-full h-full bg-dark-700 flex items-center justify-center">📺</div>
+                                        : <div className="w-full h-full bg-dark-700 flex items-center justify-center text-gray-500">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"></path></svg>
+                                        </div>
                                     }
                                 </div>
                                 <div className="flex-1 min-w-0 py-1">
                                     <p className="font-semibold text-white text-sm line-clamp-2">{item.title}</p>
-                                    <p className="text-xs font-bold mt-1" style={{ color: '#7c3aed' }}>
+                                    <p className="text-xs font-bold mt-1" style={{ color: '#3b82f6' }}>
                                         S{item.current_season} · E{item.current_episode}
                                     </p>
                                     {item.watch_link && (
                                         <a href={item.watch_link} target="_blank" rel="noopener noreferrer"
                                             onClick={e => e.stopPropagation()}
-                                            className="inline-block mt-2 text-xs px-3 py-1 rounded-full transition-all hover:opacity-80"
-                                            style={{ background: 'linear-gradient(135deg,#e50914,#c1070f)', color: 'white' }}>
-                                            ▶ İzle
+                                            className="inline-flex items-center mt-2 text-xs px-3 py-1 rounded-full transition-all hover:opacity-80 font-bold"
+                                            style={{ background: 'linear-gradient(135deg,#e50914,#b20710)', color: 'white' }}>
+                                            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                            İzle
                                         </a>
                                     )}
                                 </div>
@@ -167,11 +180,16 @@ export default function Dashboard() {
 
             {/* Boş durum */}
             {!loading && stats.total === 0 && (
-                <div className="text-center py-20">
-                    <div className="text-6xl mb-4">🎬</div>
+                <div className="text-center py-20 flex flex-col items-center">
+                    <div className="text-gray-600 mb-6">
+                        <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
+                    </div>
                     <h3 className="text-xl font-semibold text-gray-400 mb-2">Kütüphanen boş</h3>
                     <p className="text-gray-600 mb-6">Keşfet sayfasından film ve diziler ekleyebilirsin</p>
-                    <button onClick={() => navigate('/search')} className="btn-primary">🔍 Keşfet</button>
+                    <button onClick={() => navigate('/search')} className="btn-primary inline-flex items-center gap-2">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        Keşfet
+                    </button>
                 </div>
             )}
 

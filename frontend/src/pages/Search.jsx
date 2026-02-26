@@ -4,8 +4,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const TYPE_LABELS = {
-    movie: { label: 'Film', emoji: '🎬', badge: 'badge-movie' },
-    tv: { label: 'Dizi', emoji: '📺', badge: 'badge-tv' },
+    movie: { label: 'Film', badge: 'badge-movie' },
+    tv: { label: 'Dizi', badge: 'badge-tv' },
 };
 
 export default function Search() {
@@ -36,10 +36,10 @@ export default function Search() {
         setAddingId(key);
         try {
             await axios.post('/api/library', { ...item, status });
-            toast.success(`"${item.title}" kütüphaneye eklendi! 🎉`);
+            toast.success(`"${item.title}" kütüphaneye eklendi!`);
         } catch (err) {
             if (err.response?.status === 409)
-                toast('Bu içerik zaten kütüphanende var', { icon: 'ℹ️' });
+                toast('Bu içerik zaten kütüphanende var');
             else
                 toast.error('Eklenemedi, tekrar dene');
         } finally {
@@ -50,7 +50,10 @@ export default function Search() {
     return (
         <div className="page-container">
             <div className="mb-8">
-                <h1 className="text-3xl font-black mb-2">🔍 İçerik Keşfet</h1>
+                <h1 className="text-3xl font-black mb-2 flex items-center gap-2">
+                    <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    İçerik Keşfet
+                </h1>
                 <p className="text-gray-400">TMDB üzerinden milyonlarca film ve dizi ara</p>
             </div>
 
@@ -58,7 +61,9 @@ export default function Search() {
             <form onSubmit={handleSearch} className="mb-8">
                 <div className="flex flex-col sm:flex-row gap-3">
                     <div className="relative flex-1">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </span>
                         <input
                             className="input-field pl-11"
                             type="text"
@@ -69,7 +74,7 @@ export default function Search() {
                         />
                     </div>
                     <div className="flex gap-2">
-                        {[['multi', '🌐 Tümü'], ['movie', '🎬 Film'], ['tv', '📺 Dizi']].map(([val, label]) => (
+                        {[['multi', 'Tümü'], ['movie', 'Film'], ['tv', 'Dizi']].map(([val, label]) => (
                             <button
                                 key={val}
                                 type="button"

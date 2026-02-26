@@ -22,7 +22,7 @@ export default function Login() {
             } else {
                 await login({ email: form.email, username: form.username, password: form.password, isRegister: true });
             }
-            toast.success('Hoş geldin! 🎬');
+            toast.success('Hoş geldin!');
         } catch (err) {
             toast.error(err.response?.data?.error || (mode === 'login' ? 'Giriş başarısız' : 'Kayıt başarısız'));
         } finally {
@@ -37,9 +37,9 @@ export default function Login() {
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl text-3xl shadow-2xl mb-4"
-                        style={{ background: 'linear-gradient(135deg, #e50914, #7c3aed)' }}>
-                        🎬
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl text-white shadow-2xl mb-4"
+                        style={{ background: 'linear-gradient(135deg, #e50914, #b20710)' }}>
+                        <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                     </div>
                     <h1 className="text-4xl font-black mb-1">
                         <span className="text-gradient">Reel</span><span className="text-white">Mark</span>
@@ -54,7 +54,7 @@ export default function Login() {
                         {[['login', 'Giriş Yap'], ['register', 'Kayıt Ol']].map(([m, l]) => (
                             <button key={m} onClick={() => setMode(m)}
                                 className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === m ? 'text-white shadow-lg' : 'text-gray-500 hover:text-gray-300'}`}
-                                style={mode === m ? { background: 'linear-gradient(135deg,#e50914,#7c3aed)' } : {}}
+                                style={mode === m ? { background: 'linear-gradient(135deg,#e50914,#b20710)' } : {}}
                             >{l}</button>
                         ))}
                     </div>
@@ -77,7 +77,7 @@ export default function Login() {
                                 </div>
                                 <div>
                                     <label className="block text-xs text-gray-400 mb-1.5">Kullanıcı Adı</label>
-                                    <input type="text" className="input-field" placeholder="kullanicicadi"
+                                    <input type="text" className="input-field" placeholder="kullaniciadi"
                                         value={form.username} onChange={e => update('username', e.target.value)} required />
                                 </div>
                             </>

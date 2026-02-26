@@ -107,7 +107,7 @@ export default function Detail() {
                 {item.backdrop_path ? (
                     <img src={item.backdrop_path} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-30" />
                 ) : (
-                    <div className="absolute inset-0 opacity-20" style={{ background: 'linear-gradient(135deg, #e50914, #7c3aed)' }} />
+                    <div className="absolute inset-0 opacity-20" style={{ background: 'linear-gradient(135deg, #e50914, #b20710)' }} />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-r from-dark-900 via-dark-900/80 to-transparent" />
                 <div className="relative p-8 flex gap-6 items-start">
@@ -116,8 +116,8 @@ export default function Detail() {
                         {item.poster_path ? (
                             <img src={item.poster_path} alt={item.title} className="w-full h-full object-cover" />
                         ) : (
-                            <div className="w-full h-full bg-dark-700 flex items-center justify-center text-4xl">
-                                {item.type === 'tv' ? '📺' : '🎬'}
+                            <div className="w-full h-full bg-dark-700 flex items-center justify-center text-gray-500">
+                                <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
                             </div>
                         )}
                     </div>
@@ -125,7 +125,7 @@ export default function Detail() {
                     <div className="flex-1">
                         <div className="flex flex-wrap items-center gap-2 mb-3">
                             <span className={item.type === 'tv' ? 'badge-tv badge' : 'badge-movie badge'}>
-                                {item.type === 'tv' ? '📺 Dizi' : '🎬 Film'}
+                                {item.type === 'tv' ? 'Dizi' : 'Film'}
                             </span>
                             <span className={statusInfo?.class || 'badge'}>{statusInfo?.label}</span>
                             {item.vote_average > 0 && (
@@ -169,7 +169,7 @@ export default function Detail() {
                                         ? 'text-white'
                                         : 'glass text-gray-400 hover:text-white'
                                         }`}
-                                    style={item.status === s.value ? { background: 'linear-gradient(135deg,#e50914,#7c3aed)', boxShadow: '0 4px 15px rgba(229,9,20,0.3)' } : {}}
+                                    style={item.status === s.value ? { background: 'linear-gradient(135deg,#e50914,#b20710)', boxShadow: '0 4px 15px rgba(229,9,20,0.3)' } : {}}
                                 >
                                     {s.label}
                                 </button>
@@ -292,7 +292,7 @@ export default function Detail() {
                     <div className="glass rounded-xl p-5">
                         <h3 className="font-bold mb-4 text-gray-300">📊 Bilgiler</h3>
                         <dl className="space-y-3 text-sm">
-                            <div className="flex justify-between"><dt className="text-gray-500">Tür</dt><dd>{item.type === 'tv' ? '📺 Dizi' : '🎬 Film'}</dd></div>
+                            <div className="flex justify-between"><dt className="text-gray-500">Tür</dt><dd>{item.type === 'tv' ? 'Dizi' : 'Film'}</dd></div>
                             {item.release_date && <div className="flex justify-between"><dt className="text-gray-500">Yıl</dt><dd>{item.release_date.slice(0, 4)}</dd></div>}
                             {item.total_seasons && <div className="flex justify-between"><dt className="text-gray-500">Toplam Sezon</dt><dd>{item.total_seasons}</dd></div>}
                             {item.vote_average > 0 && <div className="flex justify-between"><dt className="text-gray-500">TMDB Puanı</dt><dd>⭐ {item.vote_average?.toFixed(1)}</dd></div>}

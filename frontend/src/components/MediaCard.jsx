@@ -8,9 +8,9 @@ const STATUS_CLASS = {
     watchlist: 'badge-watchlist',
 };
 const STATUS_LABEL = {
-    watching: '▶️ İzliyor',
-    watched: '✅ İzlendi',
-    watchlist: '📋 Listede',
+    watching: 'İzleniyor',
+    watched: 'İzlendi',
+    watchlist: 'İzlenecekler',
 };
 
 export default function MediaCard({ item, showControls = false, onDelete, onStatusChange, onRefresh }) {
@@ -42,8 +42,11 @@ export default function MediaCard({ item, showControls = false, onDelete, onStat
                         loading="lazy"
                     />
                 ) : (
-                    <div className="w-full h-full bg-dark-700 flex items-center justify-center text-5xl">
-                        {item.type === 'tv' ? '📺' : '🎬'}
+                    <div className="w-full h-full bg-dark-700 flex items-center justify-center text-gray-500">
+                        {item.type === 'tv' ?
+                            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> :
+                            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
+                        }
                     </div>
                 )}
 
@@ -54,10 +57,10 @@ export default function MediaCard({ item, showControls = false, onDelete, onStat
                             {item.type === 'tv' && item.status === 'watching' && (
                                 <button
                                     onClick={handleProgressNext}
-                                    className="w-full py-1.5 rounded-lg text-xs font-bold transition-all"
-                                    style={{ background: 'linear-gradient(135deg,#0ea5e9,#7c3aed)' }}
+                                    className="w-full py-1.5 rounded-lg text-xs font-bold transition-all text-white hover:opacity-90 flex items-center justify-center gap-1"
+                                    style={{ background: 'linear-gradient(135deg,#e50914,#b20710)' }}
                                 >
-                                    ⏭ Sonraki Bölüm
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg> Sonraki Bölüm
                                 </button>
                             )}
                             <div className="flex gap-1">
@@ -125,6 +128,6 @@ export default function MediaCard({ item, showControls = false, onDelete, onStat
                     </button>
                 )}
             </div>
-        </div>
+        </div >
     );
 }

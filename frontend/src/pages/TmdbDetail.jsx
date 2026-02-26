@@ -67,7 +67,7 @@ export default function TmdbDetail() {
                 {detail.backdrop_path ? (
                     <img src={detail.backdrop_path} alt={detail.title} className="absolute inset-0 w-full h-full object-cover opacity-25" />
                 ) : (
-                    <div className="absolute inset-0 opacity-20" style={{ background: 'linear-gradient(135deg,#e50914,#7c3aed)' }} />
+                    <div className="absolute inset-0 opacity-20" style={{ background: 'linear-gradient(135deg,#e50914,#b20710)' }} />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-r from-dark-900 via-dark-900/80 to-transparent" />
 
@@ -76,7 +76,9 @@ export default function TmdbDetail() {
                     <div className="hidden sm:block flex-shrink-0 w-40 rounded-xl overflow-hidden shadow-2xl" style={{ aspectRatio: '2/3' }}>
                         {detail.poster_path
                             ? <img src={detail.poster_path} alt={detail.title} className="w-full h-full object-cover" />
-                            : <div className="w-full h-full bg-dark-700 flex items-center justify-center text-5xl">{type === 'tv' ? '📺' : '🎬'}</div>
+                            : <div className="w-full h-full bg-dark-700 flex items-center justify-center text-gray-500">
+                                <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
+                            </div>
                         }
                     </div>
 
@@ -84,7 +86,7 @@ export default function TmdbDetail() {
                     <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap gap-2 mb-3">
                             <span className={type === 'tv' ? 'badge badge-tv' : 'badge badge-movie'}>
-                                {type === 'tv' ? '📺 Dizi' : '🎬 Film'}
+                                {type === 'tv' ? 'Dizi' : 'Film'}
                             </span>
                             {detail.vote_average > 0 && (
                                 <span className="badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
@@ -194,7 +196,7 @@ export default function TmdbDetail() {
                     <div className="glass rounded-xl p-5">
                         <h3 className="font-bold mb-4 text-gray-300">📊 Bilgiler</h3>
                         <dl className="space-y-3 text-sm">
-                            <div className="flex justify-between"><dt className="text-gray-500">Tür</dt><dd>{type === 'tv' ? '📺 Dizi' : '🎬 Film'}</dd></div>
+                            <div className="flex justify-between"><dt className="text-gray-500">Tür</dt><dd>{type === 'tv' ? 'Dizi' : 'Film'}</dd></div>
                             {detail.release_date && <div className="flex justify-between"><dt className="text-gray-500">Yıl</dt><dd>{detail.release_date.slice(0, 4)}</dd></div>}
                             {detail.total_seasons && <div className="flex justify-between"><dt className="text-gray-500">Sezon</dt><dd>{detail.total_seasons}</dd></div>}
                             {detail.total_episodes && <div className="flex justify-between"><dt className="text-gray-500">Bölüm</dt><dd>{detail.total_episodes}</dd></div>}
