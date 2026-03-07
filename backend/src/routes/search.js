@@ -17,6 +17,7 @@ function tmdbGet(endpoint, params = {}) {
 router.get('/', async (req, res) => {
     const { q, type } = req.query;
     if (!q) return res.status(400).json({ error: 'Arama terimi gerekli' });
+    if (q.length > 200) return res.status(400).json({ error: 'Arama terimi çok uzun (max 200 karakter)' });
 
     try {
         const endpoint = type === 'tv'
@@ -44,7 +45,7 @@ router.get('/', async (req, res) => {
         res.json({ results });
     } catch (err) {
         console.error('TMDB Arama hatası:', err.response?.status, err.message);
-        res.status(500).json({ error: 'TMDB API hatası', detail: err.response?.data });
+        res.status(502).json({ error: 'Arama servisi şu an kullanılamıyor, lütfen tekrar dene.' });
     }
 });
 

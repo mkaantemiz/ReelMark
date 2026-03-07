@@ -3,6 +3,7 @@ const path = require('path');
 
 const db = new Database(path.join(__dirname, '../../filmdizi.db'));
 db.pragma('journal_mode = WAL');
+db.pragma('synchronous = NORMAL'); // Performans/güvenilirlik dengesi
 
 // Kullanıcılar tablosu
 db.exec(`CREATE TABLE IF NOT EXISTS users (
@@ -41,5 +42,23 @@ db.exec(`CREATE TABLE IF NOT EXISTS media_items (
 const tryAdd = (sql) => { try { db.exec(sql); } catch (_) { } };
 tryAdd('ALTER TABLE media_items ADD COLUMN user_id INTEGER REFERENCES users(id)');
 tryAdd('ALTER TABLE media_items ADD COLUMN watch_link TEXT');
+
+// Sunucu kapanırken WAL checkpoint yaparak veriyi ana dosyaya kaydet
+function gracefulShutdown() {
+  try {
+    db.pragma('wal_checkpoint(TRUNCATE)');
+    db.close();
+    console.log('✅ Veritabanı güvenli şekilde kapatıldı.');
+  } catch (e) {
+    console.error('DB kapatma hatası:', e.message);
+  }
+}
+process.on('exit', gracefulShutdown);
+process.on('SIGINT', () => process.exit(0));
+process.on('SIGTERM', () => process.exit(0));
+process.on('uncaughtException', (err) => {
+  console.error('Kritik hata:', err);
+  process.exit(1);
+});
 
 module.exports = db;

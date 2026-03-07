@@ -1,6 +1,6 @@
 @echo off
 echo ==============================================
-echo    CineTrack - Baslatiyor...
+echo    ReelMark - Baslatiyor...
 echo ==============================================
 echo.
 
@@ -20,31 +20,27 @@ if %errorlevel% neq 0 (
 echo [OK] Node.js bulundu
 node -v
 
-:: Backend bagimliliklerini kur
+:: Backend bagimliliklerini kur (her zaman - yeni paket eklenebilir)
 echo.
-echo [1/4] Backend bagimlilikler kuruluyor...
+echo [1/4] Backend bagimlilikler kontrol ediliyor...
 cd /d "%~dp0backend"
-if not exist node_modules (
-    npm install
-    if %errorlevel% neq 0 (
-        echo [HATA] Backend npm install basarisiz!
-        pause
-        exit /b 1
-    )
+npm install --prefer-offline
+if %errorlevel% neq 0 (
+    echo [HATA] Backend npm install basarisiz!
+    pause
+    exit /b 1
 )
 echo [OK] Backend hazir
 
-:: Frontend bagimliliklerini kur
+:: Frontend bagimliliklerini kur (her zaman)
 echo.
-echo [2/4] Frontend bagimlilikler kuruluyor...
+echo [2/4] Frontend bagimlilikler kontrol ediliyor...
 cd /d "%~dp0frontend"
-if not exist node_modules (
-    npm install
-    if %errorlevel% neq 0 (
-        echo [HATA] Frontend npm install basarisiz!
-        pause
-        exit /b 1
-    )
+npm install --prefer-offline
+if %errorlevel% neq 0 (
+    echo [HATA] Frontend npm install basarisiz!
+    pause
+    exit /b 1
 )
 echo [OK] Frontend hazir
 
@@ -52,7 +48,7 @@ echo [OK] Frontend hazir
 echo.
 echo [3/4] Backend sunucu baslatiliyor (port 3001)...
 cd /d "%~dp0backend"
-start "CineTrack-Backend" cmd /k "echo Backend calisiyor... && node server.js"
+start "ReelMark-Backend" cmd /k "echo Backend calisiyor... && node server.js"
 
 :: Bir saniye bekle
 timeout /t 2 /nobreak >nul
@@ -61,10 +57,10 @@ timeout /t 2 /nobreak >nul
 echo.
 echo [4/4] Frontend baslatiliyor (port 5173)...
 cd /d "%~dp0frontend"
-start "CineTrack-Frontend" cmd /k "echo Frontend calisiyor... && npm run dev"
+start "ReelMark-Frontend" cmd /k "echo Frontend calisiyor... && npm run dev"
 
 :: Bir saniye bekle
-timeout /t 3 /nobreak >nul
+timeout /t 4 /nobreak >nul
 
 :: Tarayiciyi ac
 echo.
@@ -73,7 +69,7 @@ start http://localhost:5173
 
 echo.
 echo ==============================================
-echo    CineTrack basarıyla baslatildi!
+echo    ReelMark basarıyla baslatildi!
 echo    http://localhost:5173 adresini ziyaret et
 echo ==============================================
 pause
